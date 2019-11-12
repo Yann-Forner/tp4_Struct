@@ -44,9 +44,9 @@ public class SquareSubMatrix {
 
     public SquareSubMatrix clone(){
         SquareSubMatrix square = new SquareSubMatrix(this.dimension,this.firstLine,this.firstColumn,this.lastLine,this.lastColumn);
-        for (int i = 0; i <dimension ; i++) {
-            for (int j = 0; j <dimension ; j++) {
-                square.set(i,j ,this.matrix[i][j]);
+        for (int i = 0; i < this.getSubMatriceDimension() ; i++) {
+            for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
+                square.set(i,j, this.get(i,j));
             }
         }
         return square;
@@ -74,13 +74,13 @@ public class SquareSubMatrix {
         }
     }
 
-    public void product(int [][] submatrix){
+    public void product(SquareSubMatrix submatrix){
         int[][] newMat = new int[this.getSubMatriceDimension()][this.getSubMatriceDimension()];
         for (int i = 0; i <this.getSubMatriceDimension() ; i++) {
             for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
                 int product = 0;
                 for (int k = 0; k < this.getSubMatriceDimension() ; k++) {
-                    product+= this.get(i,k)*submatrix[k][j];
+                    product+= this.get(i,k)*submatrix.get(k,j);
                 }
                 newMat[i][j] = product;
             }
@@ -103,16 +103,16 @@ public class SquareSubMatrix {
         return mat;
     }
 
-    public int[][] power(int n){
-        int[][] temp = this.getSubMatrix();
-        if(n==1)return getSubMatrix();
+    public SquareSubMatrix power(int n){
+        SquareSubMatrix temp = this.clone();
+        if(n==1)return this;
         product(power(n-1));
         return temp;
     }
 
-    public int[][] quickpower(int n){
-        int[][] temp = this.getSubMatrix();
-        if(n==1)return getSubMatrix();
+    public SquareSubMatrix quickpower(int n){
+        SquareSubMatrix temp = this.clone();
+        if(n==1)return this;
         if(n%2==0){
             product(quickpower(n/2));
         }else{
