@@ -92,8 +92,7 @@ public class SquareSubMatrix {
                 this.set(i,j,this.get(i,j)+matrix.get(i,j));
             }
         }
-        System.out.println(this +"SUM");
-        System.out.println(matrix +"SUM");
+
         return this;
     }
 
@@ -109,7 +108,6 @@ public class SquareSubMatrix {
             }
         }
         this.setSubMatrix(newMat);
-        System.out.println(this);
     }
 
     @Override
@@ -162,20 +160,18 @@ public class SquareSubMatrix {
                 newSubMatrix.set(i, j,subMatrix.get(debMatR + i, debMatC + j));
             }
         }
-        System.out.println(newSubMatrix+"-----------"+xlin+"-----------"+xcol);
         return newSubMatrix;
     }
 
     public SquareSubMatrix regroupement(SquareSubMatrix A,SquareSubMatrix B,SquareSubMatrix C,SquareSubMatrix D){
-        for (int i = 0; i < this.getSubMatriceDimension() ; i++) {
-            for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
-                if(i < this.getSubMatriceDimension()/2 && j < this.getSubMatriceDimension()/2) set(i,j,A.get(i,j));
-                if(i >= this.getSubMatriceDimension()/2 && j < this.getSubMatriceDimension()/2) set(i,j,B.get(i,j));
-                if(i < this.getSubMatriceDimension()/2 && j >= this.getSubMatriceDimension()/2) set(i,j,C.get(i,j));
-                if(i >= this.getSubMatriceDimension()/2 && j >= this.getSubMatriceDimension()/2) set(i,j,D.get(i,j));
+        for (int i = 0; i < A.getSubMatriceDimension(); i++) {
+            for (int j = 0; j < A.getSubMatriceDimension(); j++) {
+                this.set(i,j,A.get(i,j));
+                this.set(i+A.getSubMatriceDimension(),j,B.get(i,j));
+                this.set(i,j+A.getSubMatriceDimension(),C.get(i,j));
+                this.set(i+A.getSubMatriceDimension(),j+A.getSubMatriceDimension(),D.get(i,j));
             }
         }
-
         return this;
     }
 
@@ -210,7 +206,6 @@ public class SquareSubMatrix {
             SquareSubMatrix C3 = E.sum(F);
 
             SquareSubMatrix C4 = G.sum(H);
-
 
             return regroupement(C1,C2,C3,C4);
         }
