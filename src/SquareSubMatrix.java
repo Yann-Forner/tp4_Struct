@@ -17,6 +17,26 @@ public class SquareSubMatrix {
         matrix = new int[dimension][dimension];
     }
 
+    public int getDimension() {
+        return dimension;
+    }
+
+    public int getFirstLine() {
+        return firstLine;
+    }
+
+    public int getFirstColumn() {
+        return firstColumn;
+    }
+
+    public int getLastLine() {
+        return lastLine;
+    }
+
+    public int getLastColumn() {
+        return lastColumn;
+    }
+
     public void setMatrix(SquareSubMatrix matrix) {
         this.matrix = matrix.getMatrix();
     }
@@ -72,6 +92,8 @@ public class SquareSubMatrix {
                 this.set(i,j,this.get(i,j)+matrix.get(i,j));
             }
         }
+        System.out.println(this +"SUM");
+        System.out.println(matrix +"SUM");
     }
 
     public void product(SquareSubMatrix submatrix){
@@ -122,9 +144,40 @@ public class SquareSubMatrix {
 
         return temp;
     }
+    public SquareSubMatrix portion(SquareSubMatrix subMatrix, int xlin, int xcol) {
+        int newSubMatrixLength = subMatrix.getSubMatriceDimension()/2;
+        int debMatR = 0;
+        int debMatC = 0;
+        if(xlin==1)debMatR= newSubMatrixLength;
+        if(xcol==1)debMatC= newSubMatrixLength;
+        SquareSubMatrix newSubMatrix = new SquareSubMatrix(subMatrix.getDimension(),
+                subMatrix.getFirstLine(), subMatrix.getFirstColumn(),
+                (subMatrix.firstLine+subMatrix.getSubMatriceDimension()/2)-1,
+                (subMatrix.getFirstColumn()+subMatrix.getSubMatriceDimension()/2)-1);
 
-    public int[][] quickProduct(int[][] matB){
-        return null;
+        for (int i = 0; i < newSubMatrixLength; i++) {
+            for (int j = 0; j < newSubMatrixLength; j++) {
+                newSubMatrix.set(i, j,subMatrix.get(debMatR + i, debMatC + j));
+            }
+        }
+        System.out.println(newSubMatrix+"-----------"+xlin+"-----------"+xcol);
+        return newSubMatrix;
+    }
+
+
+
+
+
+    public SquareSubMatrix quickProduct(SquareSubMatrix matB){
+        if(this.getSubMatriceDimension()==2) {
+
+            this.product(matB);
+            System.out.println(this+ "---------------------------------");
+        }
+        else {
+            portion(this,0,0).quickProduct(portion(matB,0,0)).sum(portion(this,0,1).quickProduct(portion(matB,1,0)));
+        }
+        return this;
     }
 
 }
