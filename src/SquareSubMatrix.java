@@ -17,10 +17,10 @@ public class SquareSubMatrix {
         matrix = new int[dimension][dimension];
     }
 
-    public void setMatrix(int[][] matrix) {
-        this.matrix = matrix;
+    public void setMatrix(SquareSubMatrix matrix) {
+        this.matrix = matrix.getMatrix();
     }
-    public void setSubMatrix(int[][] matrix){
+    public void setSubMatrix(int [][] matrix){
         for (int i = 0; i < this.getSubMatriceDimension()  ; i++) {
             for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
                 this.set(i, j, matrix[i][j]);
@@ -66,10 +66,10 @@ public class SquareSubMatrix {
         this.matrix[row+firstLine][col+firstColumn] = value;
     }
 
-    public void sum (int [][] matrix){
+    public void sum (SquareSubMatrix matrix){
         for (int i = 0; i < this.getSubMatriceDimension() ; i++) {
             for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
-                this.set(i,j,this.get(i,j)+matrix[i][j]);
+                this.set(i,j,this.get(i,j)+matrix.get(i,j));
             }
         }
     }
@@ -115,21 +115,16 @@ public class SquareSubMatrix {
         if(n==1)return getSubMatrix();
         if(n%2==0){
             product(quickpower(n/2));
-            product(quickpower(n/2));
         }else{
+            product(quickpower((n-1)/2));
             product(temp);
-            product(quickpower(n/2));
-            product(quickpower(n/2));
         }
 
         return temp;
     }
 
-    public void quickProduct(int[][] subMatrix ){
-        sumRecur(0,0,subMatrix);
+    public int[][] quickProduct(int[][] matB){
+        return null;
     }
 
-    public int sumRecur(int row , int col,int[][] subMatrix){
-
-    }
 }
