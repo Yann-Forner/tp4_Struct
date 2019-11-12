@@ -10,22 +10,29 @@ public class Main {
 
             }
         }
-        SquareSubMatrix square = new SquareSubMatrix(10,4,4,5,5);
-        square.set(0,0,1);
-        square.set(0,1,2);
-        square.set(1,0,3);
-        square.set(1,1,4);
-        SquareSubMatrix square2 = new SquareSubMatrix(10,4,4,5,5);
-        square2.set(0,0,1);
-        square2.set(0,1,2);
-        square2.set(1,0,3);
-        square2.set(1,1,4);
+        SquareSubMatrix square = new SquareSubMatrix(15,5,5,8,8);
+        square.setSubMatrix(
+                new int [][]{{7,8,9,10},{11,12,13,14},{15,16,17,18},{19,20,21,22}});
+        SquareSubMatrix square2 = new SquareSubMatrix(15,5,5,8,8);
+        square2.setSubMatrix(
+                new int [][]{{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}});
 
-        System.out.println(square);
-        square.power(4);
-        System.out.println(square);
-        square2.quickpower(4);
-        System.out.println(square);
+        ;
+        System.out.println(square.quickProduct(square2));
+
+//        SquareSubMatrix square3 = new SquareSubMatrix(15,5,5,6,6);
+//        square3.setSubMatrix(new int [][]{
+//                {1,2},{3,4}
+//        });
+//        SquareSubMatrix square4 = square3.clone();
+//        square3.product(square3);
+//        System.out.println(square3);
+//        square4.power(2);
+//        System.out.println(square4);
+
+
+
+
 
     }
 }

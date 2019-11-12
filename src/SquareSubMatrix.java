@@ -86,7 +86,7 @@ public class SquareSubMatrix {
         this.matrix[row+firstLine][col+firstColumn] = value;
     }
 
-    public void sum (SquareSubMatrix matrix){
+    public SquareSubMatrix sum (SquareSubMatrix matrix){
         for (int i = 0; i < this.getSubMatriceDimension() ; i++) {
             for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
                 this.set(i,j,this.get(i,j)+matrix.get(i,j));
@@ -94,6 +94,7 @@ public class SquareSubMatrix {
         }
         System.out.println(this +"SUM");
         System.out.println(matrix +"SUM");
+        return this;
     }
 
     public void product(SquareSubMatrix submatrix){
@@ -108,6 +109,7 @@ public class SquareSubMatrix {
             }
         }
         this.setSubMatrix(newMat);
+        System.out.println(this);
     }
 
     @Override
@@ -164,20 +166,55 @@ public class SquareSubMatrix {
         return newSubMatrix;
     }
 
+    public SquareSubMatrix regroupement(SquareSubMatrix A,SquareSubMatrix B,SquareSubMatrix C,SquareSubMatrix D){
+        for (int i = 0; i < this.getSubMatriceDimension() ; i++) {
+            for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
+                if(i < this.getSubMatriceDimension()/2 && j < this.getSubMatriceDimension()/2) set(i,j,A.get(i,j));
+                if(i >= this.getSubMatriceDimension()/2 && j < this.getSubMatriceDimension()/2) set(i,j,B.get(i,j));
+                if(i < this.getSubMatriceDimension()/2 && j >= this.getSubMatriceDimension()/2) set(i,j,C.get(i,j));
+                if(i >= this.getSubMatriceDimension()/2 && j >= this.getSubMatriceDimension()/2) set(i,j,D.get(i,j));
+            }
+        }
 
-
+        return this;
+    }
 
 
     public SquareSubMatrix quickProduct(SquareSubMatrix matB){
         if(this.getSubMatriceDimension()==2) {
-
-            this.product(matB);
-            System.out.println(this+ "---------------------------------");
+            SquareSubMatrix temp = this.clone();
+              temp.product(matB);
+            return temp;
         }
         else {
-            portion(this,0,0).quickProduct(portion(matB,0,0)).sum(portion(this,0,1).quickProduct(portion(matB,1,0)));
+            SquareSubMatrix A = portion(this,0,0).quickProduct(portion(matB,0,0));//A1*B1
+
+            SquareSubMatrix B = portion(this,0,1).quickProduct(portion(matB,1,0));//A2*B3
+
+            SquareSubMatrix C = portion(this,0,0).quickProduct(portion(matB,0,1));//A1*B2
+
+            SquareSubMatrix D = portion(this,0,1).quickProduct(portion(matB,1,1));//A2*B4
+
+            SquareSubMatrix E = portion(this,1,0).quickProduct(portion(matB,0,0));//A3*B1
+
+            SquareSubMatrix F = portion(this,1,1).quickProduct(portion(matB,1,0));//A4*B3
+
+            SquareSubMatrix G = portion(this,1,0).quickProduct(portion(matB,0,1));//A3*B2
+
+            SquareSubMatrix H = portion(this,1,1).quickProduct(portion(matB,1,1));//A4*B4
+
+            SquareSubMatrix C1 = A.sum(B);
+
+            SquareSubMatrix C2 = C.sum(D);
+
+            SquareSubMatrix C3 = E.sum(F);
+
+            SquareSubMatrix C4 = G.sum(H);
+
+
+            return regroupement(C1,C2,C3,C4);
         }
-        return this;
+
     }
 
 }
