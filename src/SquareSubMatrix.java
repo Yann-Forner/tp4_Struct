@@ -7,6 +7,8 @@ public class SquareSubMatrix {
     private int firstColumn;
     private int lastLine;
     private int lastColumn;
+    private int products=0;
+    private int sums=0;
 
     public SquareSubMatrix(int dimension, int firstLine, int firstColumn, int lastLine, int lastColumn) {
         this.dimension = dimension;
@@ -37,9 +39,26 @@ public class SquareSubMatrix {
         return lastColumn;
     }
 
+    public int getProducts() {
+        return products;
+    }
+
+    public int getSums() {
+        return sums;
+    }
+
+    public void setProducts(int products) {
+        this.products = products;
+    }
+
+    public void setSums(int sums) {
+        this.sums = sums;
+    }
+
     public void setMatrix(SquareSubMatrix matrix) {
         this.matrix = matrix.getMatrix();
     }
+
     public void setSubMatrix(int [][] matrix){
         for (int i = 0; i < this.getSubMatriceDimension()  ; i++) {
             for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
@@ -90,6 +109,7 @@ public class SquareSubMatrix {
         for (int i = 0; i < this.getSubMatriceDimension() ; i++) {
             for (int j = 0; j < this.getSubMatriceDimension() ; j++) {
                 this.set(i,j,this.get(i,j)+matrix.get(i,j));
+                ++sums;
             }
         }
 
@@ -103,6 +123,8 @@ public class SquareSubMatrix {
                 int product = 0;
                 for (int k = 0; k < this.getSubMatriceDimension() ; k++) {
                     product+= this.get(i,k)*submatrix.get(k,j);
+                    this.products++;
+                    this.sums++;
                 }
                 newMat[i][j] = product;
             }
@@ -172,15 +194,15 @@ public class SquareSubMatrix {
                 this.set(i+A.getSubMatriceDimension(),j+A.getSubMatriceDimension(),D.get(i,j));
             }
         }
+        this.setProducts(A.getProducts()+B.getProducts()+C.getProducts()+D.getProducts());
+        this.setSums(A.getSums()+B.getSums()+C.getSums()+D.getSums());
         return this;
     }
 
 
     public SquareSubMatrix quickProduct(SquareSubMatrix matB){
         if(this.getSubMatriceDimension()==2) {
-            SquareSubMatrix temp = this.clone();
-              temp.product(matB);
-            return temp;
+            this.product(matB);
         }
         else {
             SquareSubMatrix A = portion(this,0,0).quickProduct(portion(matB,0,0));//A1*B1
@@ -208,8 +230,20 @@ public class SquareSubMatrix {
             SquareSubMatrix C4 = G.sum(H);
 
             return regroupement(C1,C2,C3,C4);
+
         }
+        return this;
 
     }
-
+    public SquareSubMatrix veryQuickPower(int n){
+        SquareSubMatrix temp = this.clone();
+        if(n==1)return this;
+        if(n%2==0){
+            quickProduct(veryQuickPower(n/2));
+        }else{
+            quickProduct(veryQuickPower((n-1)/2));
+            quickProduct(temp);
+        }
+        return this;
+    }
 }

@@ -14,16 +14,24 @@ public class Main {
         square.setSubMatrix(
                 new int [][]{{7,8,9,10},{11,12,13,14},{15,16,17,18},{19,20,21,22}});
         SquareSubMatrix square3 = square.clone();
+        SquareSubMatrix square4 = square.clone();
         SquareSubMatrix square2 = new SquareSubMatrix(15,5,5,8,8);
         square2.setSubMatrix(
                 new int [][]{{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}});
 
         ;
+        System.out.println("VERYQUICK");
+        square.veryQuickPower(3);
+        System.out.println(square);
+        System.out.println(square.getSums()+" - "+square.getProducts());
         System.out.println("QUICK");
-        System.out.println(square.quickProduct(square2));
-        square3.product(square2);
-        System.out.println("PRODUCT");
+        square4.quickpower(3);
+        System.out.println(square4);
+        System.out.println(square4.getSums()+" - "+square4.getProducts());
+        System.out.println("power");
+        square3.power(3);
         System.out.println(square3);
+        System.out.println(square3.getSums()+" - "+square3.getProducts());
 //        SquareSubMatrix square3 = new SquareSubMatrix(15,5,5,6,6);
 //        square3.setSubMatrix(new int [][]{
 //                {1,2},{3,4}
